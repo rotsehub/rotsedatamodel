@@ -76,8 +76,45 @@ def add_recarray_field(recarray, narr):
     return newrec
 
 
+def create_struct(arrays):
+    ''' combines arrays into recarray.
+    Args:
+        arrys: list of (name, ndarray) tuples.
+    '''
+
+    # create new dtype for the recarray
+    fields = []
+    for name, array in arrays:
+        fields += [(name, array.dtype, array.shape)]
+
+    head_name, head_array = arrays[0]
+    dtype = np.dtype(fields)
+    rec = np.empty(head_array.shape, dtype=dtype)
+
+    # copy source fields to new recarray
+    for field, array in arrays:
+        rec[field] = array
+
+    return rec
+
+
 if __name__ == '__main__':
     x = np.array([(1.0, 2), (3.0, 4)], dtype=[('x', float), ('y', int)])
     y = [('a', (20, 10)), ('b', (30, 50))]
     z = add_recarray_field(x, y)
     print(z.dtype, z)
+
+    shape = (3, 4, 5)
+    a = np.zeros(shape, dtype=np.float32)
+    b = np.zeros(shape, dtype=np.float32)
+    ab_list = [('a', a), ('b', b)]
+    ab = create_struct(ab_list)
+    print(ab)
+    c = np.zeros(shape, dtype=np.int32)
+    abc_list = ab_list + [('c', c)]
+    abc = create_struct(abc_list)
+
+    d = 100
+    new = np.empty(shape, dtype=[('a', 'f4', shape), ('b', 'f4', shape), ('c', 'i4', shape), ('d', 'i4', 1)])
+    print(new)
+    print(new.dtype)

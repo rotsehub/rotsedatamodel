@@ -375,8 +375,3 @@ if __name__ == "__main__":
     # fitsfile = "test.fit"
     # match2fits(datfile=datfile, filepath=fitsfile)
     match2fits(datfile=datfile)
-
-    from concepts.mappingfits import elements
-
-    # elements(fitsfile)
-    # print(pyfits.info(fitsfile))
