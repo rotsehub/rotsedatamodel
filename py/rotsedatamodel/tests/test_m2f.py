@@ -8,7 +8,7 @@ Created on Dec 13, 2017
 import unittest as ut
 import numpy as np
 from rotsedatamodel.match2fits import multimatch2fits, getmatch
-from rotseutil import readfits
+from rotsedatamodel.io.fitstools import readfits
 
 
 def remove_spaces(s):
